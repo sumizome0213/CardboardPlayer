@@ -1,6 +1,5 @@
 package com.nittcprocon.cardboardplayer;
 
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,3 +102,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+/*
+class UDPServer {
+    public static void main(String[] argv) throws Exception {
+        // 5100番ポートを監視するUDPソケットを生成
+        DatagramSocket receiveSocket = new DatagramSocket(5100);
+
+        // 受け付けるデータバッファとUDPパケットを作成
+        byte receiveBuffer[] = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+
+        while (true) {
+            // UDPパケットを受信
+            receiveSocket.receive(receivePacket);
+
+            // 受信したデータを標準出力へ出力
+            MainActivity mainActivity = new MainActivity();
+
+            mainActivity.(new String(receivePacket.getData(), 0, receivePacket.getLength()));
+        }
+    }
+}
+*/
+
+
