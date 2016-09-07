@@ -26,14 +26,19 @@ public class MainActivity extends AppCompatActivity {
             VrVideoView.Options videoOptions = new VrVideoView.Options();
             videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
 
+            /*
             // HLS 配信の場合は、inputFormat に FORMAT_HLS を指定する。
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_HLS;
-            Uri uri = Uri.parse("https://vr.cloudfront.net/sample.m3u8");
+            Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.ride);
             videoView.loadVideo(uri, videoOptions);
+            */
+
 
             // HSL 配信以外は FORMAT_DEFAULT を指定する。
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
-            videoView.loadVideoFromAsset("video_sample.mp4", videoOptions);
+            videoView.loadVideoFromAsset("ride.mp4", videoOptions);
+
+
         } catch (IOException e) {
             e.printStackTrace();
             Log.d("VR", "Video Load Error.");
