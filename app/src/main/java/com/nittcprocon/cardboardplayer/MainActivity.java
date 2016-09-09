@@ -1,14 +1,18 @@
 package com.nittcprocon.cardboardplayer;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.vr.sdk.widgets.common.VrWidgetView;
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
 
 import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +47,52 @@ public class MainActivity extends AppCompatActivity {
             Log.d("VR", "Video Load Error.");
         }
     }
+
+    protected void onResume() {
+        super.onResume();
+
+        int port = 12345;      // 送信側と揃える
+        int bufferSize = 1024;
+
+        UDPObjectTransfer udpObjectTransfer = new UDPObjectTransfer();
+
+        Object obj = udpObjectTransfer.receive(port, bufferSize);
+
+        String mode = obj.toString();
+
+        switch (mode){
+            case "Play":
+
+
+            case "Stop":
+
+
+        }
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.setting:
+                Intent intent1 = new android.content.Intent(this, SettingPreferenceActivity.class);
+                startActivity(intent1);
+                return true;
+            case R.id.help:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
     private class VideoEventListener extends VrVideoEventListener {
         @Override
@@ -100,30 +150,11 @@ public class MainActivity extends AppCompatActivity {
             // 動画再生が完了
             super.onCompletion();
         }
+
     }
+
+
 }
 
-/*
-class UDPServer {
-    public static void main(String[] argv) throws Exception {
-        // 5100番ポートを監視するUDPソケットを生成
-        DatagramSocket receiveSocket = new DatagramSocket(5100);
-
-        // 受け付けるデータバッファとUDPパケットを作成
-        byte receiveBuffer[] = new byte[1024];
-        DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-
-        while (true) {
-            // UDPパケットを受信
-            receiveSocket.receive(receivePacket);
-
-            // 受信したデータを標準出力へ出力
-            MainActivity mainActivity = new MainActivity();
-
-            mainActivity.(new String(receivePacket.getData(), 0, receivePacket.getLength()));
-        }
-    }
-}
-*/
 
 
