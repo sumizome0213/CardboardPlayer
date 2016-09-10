@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onResume() {
+   /* protected void onResume() {
         super.onResume();
 
         int port = 12345;      // 送信側と揃える
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,8 +82,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.setting:
-                Intent intent1 = new android.content.Intent(this, SettingPreferenceActivity.class);
-                startActivity(intent1);
+                // インテントの生成
+                Intent setting = new Intent();
+                setting.setClassName("com.nittcprocon.cardboardplayer", "com.nittcprocon.cardboardplayer.SettingPreferenceActivity");
+
+                
+                // SubActivity の起動
+                startActivity(setting);
+
                 return true;
             case R.id.help:
                 return true;

@@ -10,7 +10,6 @@
 
     <Preference
         android:key="IPAddress"
-        android:title="@string/IPAddress"
-        android:summary="@string/IPAddress_summary" />
+        android:title="@string/IPAddress" />
 
 </PreferenceScreen>
