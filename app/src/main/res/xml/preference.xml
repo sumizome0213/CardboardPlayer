@@ -6,6 +6,8 @@
         android:key="Port"
         android:title="@string/Port"
         android:dialogTitle="@string/Port"
+        android:inputType="number"
+        android:maxLength="@string/Port_maxLength"
         android:defaultValue="@string/Port_defaultValue"/>
 
     <Preference
