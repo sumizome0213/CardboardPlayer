@@ -1,6 +1,8 @@
 package com.nittcprocon.cardboardplayer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,13 +55,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        //Portの数値を"strport"(string型)へ
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String strport = sharedPreferences.getString("Port", "unknown");
+
+        //"strport"(string型)を"port"(int型)へ
+        final int port = Integer.parseInt(strport);
+        Log.d("port", strport + " int:" + port);
+
+        //SocketUDPへportを送りながら起動
         (new Thread(new Runnable() {
             @Override
             public void run() {
 
+
+
                 while(true) {
 
-                    receiveValue = new String(Listener.getMessage());
+                    receiveValue = new String(Listener.getMessage(port));
 
                 }
 
