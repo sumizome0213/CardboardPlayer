@@ -17,6 +17,8 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private VrVideoView videoView;
+    public SocketUDP Listener = new SocketUDP();
+    public String receiveValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,29 +50,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-   /* protected void onResume() {
+    protected void onResume() {
         super.onResume();
 
-        int port = 12345;      // 送信側と揃える
-        int bufferSize = 1024;
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        UDPObjectTransfer udpObjectTransfer = new UDPObjectTransfer();
+                while(true) {
 
-        Object obj = udpObjectTransfer.receive(port, bufferSize);
+                    receiveValue = new String(Listener.getMessage());
 
-        String mode = obj.toString();
+                }
 
-        switch (mode){
-            case "Play":
+            }
+        })).start();
 
+    }
 
-            case "Stop":
-
-
-        }
-
-
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
     private class VideoEventListener extends VrVideoEventListener {
