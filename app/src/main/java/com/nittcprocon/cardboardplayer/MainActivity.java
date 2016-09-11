@@ -14,6 +14,7 @@ import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,11 +22,14 @@ public class MainActivity extends AppCompatActivity {
     private VrVideoView videoView;
     public SocketUDP Listener = new SocketUDP();
     public String receiveValue;
+    boolean UDPbreak = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StartUDP();
 
         videoView = (VrVideoView) findViewById(R.id.vr_video_view);
         videoView.setEventListener(new VideoEventListener());
@@ -52,33 +56,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onResume() {
-        super.onResume();
-
-        //Portの数値を"strport"(string型)へ
+    public void StartUDP() {
+        //Portの数値を"strport"(string型)へ(""の場合は"12345"とする)
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String strport = sharedPreferences.getString("Port", "unknown");
+        String strport = sharedPreferences.getString("Port", "12345");
+        if (Objects.equals(strport, "")) strport = "12345";
 
         //"strport"(string型)を"port"(int型)へ
         final int port = Integer.parseInt(strport);
-        Log.d("port", strport + " int:" + port);
+        Log.d("UDP", "port# " + port);
 
         //SocketUDPへportを送りながら起動
         (new Thread(new Runnable() {
             @Override
             public void run() {
 
-
-
                 while(true) {
 
                     receiveValue = new String(Listener.getMessage(port));
+
+                    //UDP再起動
+                    if (UDPbreak) {
+                        UDPbreak = false;
+                        StartUDP();
+                        Log.d("UDP", "UDPbreak$ ");
+                        break;
+                    }
 
                 }
 
             }
         })).start();
+    }
 
+    //UDP再起動命令
+    public void UDPbreak(){
+        UDPbreak = true;
+        Log.d("UDP", "UDPbreakMethod$ ");
     }
 
 

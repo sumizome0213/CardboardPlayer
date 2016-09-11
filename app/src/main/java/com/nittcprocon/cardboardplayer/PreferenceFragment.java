@@ -48,6 +48,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         EditTextPreference port = (EditTextPreference)getPreferenceScreen().findPreference("Port");
         port.setSummary(port.getText());
 
+        //UDP再起動命令実行
+        MainActivity mainActivity = new MainActivity();
+        //mainActivity.UDPbreak();
+
     }
 
     @Override

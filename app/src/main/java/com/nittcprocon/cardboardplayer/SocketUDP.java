@@ -42,14 +42,14 @@ public class SocketUDP {
 
                 // 受信したデータをログへ出力
                 message = new String(receivePacket.getData(),0, receivePacket.getLength());
-                Log.d("UDPMessage", message);
+                Log.d("UDP", "Message# " + message);
             }
         };
         thread.start();
         try {
             thread.join();
         } catch (InterruptedException e) {
-            Log.d("UDPMessage",e.toString());
+            Log.d("UDP","Message# " + e.toString());
         }
 
         return message;
