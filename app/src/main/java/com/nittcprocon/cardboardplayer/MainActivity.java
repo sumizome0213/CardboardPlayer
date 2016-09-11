@@ -84,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.setting:
                 // インテントの生成
                 Intent setting = new Intent();
-                setting.setClassName("com.nittcprocon.cardboardplayer", "com.nittcprocon.cardboardplayer.SettingPreferenceActivity");
-
+                setting.setClassName("com.nittcprocon.cardboardplayer", "com.nittcprocon.cardboardplayer.SettingsActivity");
 
                 // SubActivity の起動
                 startActivity(setting);
