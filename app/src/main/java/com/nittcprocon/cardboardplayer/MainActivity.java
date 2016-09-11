@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent setting = new Intent();
                 setting.setClassName("com.nittcprocon.cardboardplayer", "com.nittcprocon.cardboardplayer.SettingPreferenceActivity");
 
-                
+
                 // SubActivity の起動
                 startActivity(setting);
 

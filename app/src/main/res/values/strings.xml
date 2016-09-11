@@ -7,6 +7,6 @@
 
     //Setting項目
     <string name="Port">Port</string>
-    <string name="Port_summary">UDP通信に使うPort番号</string>
+    <string name="Port_defaultValue">12345</string>
     <string name="IPAddress">IPAddress</string>
 </resources>

@@ -5,8 +5,8 @@
     <EditTextPreference
         android:key="Port"
         android:title="@string/Port"
-        android:summary="@string/Port_summary"
-        android:dialogTitle="@string/Port"/>
+        android:dialogTitle="@string/Port"
+        android:defaultValue="@string/Port_defaultValue"/>
 
     <Preference
         android:key="IPAddress"
