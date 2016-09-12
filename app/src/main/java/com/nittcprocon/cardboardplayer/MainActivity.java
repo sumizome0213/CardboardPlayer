@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private VrVideoView videoView;
     public SocketUDP Listener = new SocketUDP();
     public String receiveValue;
-    boolean UDPbreak = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,26 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
                     receiveValue = new String(Listener.getMessage(port));
 
-                    //UDP再起動
-                    if (UDPbreak) {
-                        UDPbreak = false;
-                        StartUDP();
-                        Log.d("UDP", "UDPbreak$ ");
-                        break;
-                    }
-
                 }
 
             }
         })).start();
     }
-
-    //UDP再起動命令
-    public void UDPbreak(){
-        UDPbreak = true;
-        Log.d("UDP", "UDPbreakMethod$ ");
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,6 +7,7 @@
 
     //Setting項目
     <string name="Port">Port</string>
+    <string name="Port_dialogMessage">変更後はアプリの再起動をして下さい</string>
     <string name="Port_maxLength">5</string>
     <string name="Port_defaultValue">12345</string>
     <string name="IPAddress">IPAddress</string>

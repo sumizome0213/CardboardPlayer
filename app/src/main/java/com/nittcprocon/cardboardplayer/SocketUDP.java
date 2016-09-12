@@ -46,6 +46,7 @@ public class SocketUDP {
             }
         };
         thread.start();
+
         try {
             thread.join();
         } catch (InterruptedException e) {

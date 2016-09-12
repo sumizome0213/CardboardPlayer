@@ -13,6 +13,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     Context context;
 
+    //getSystemServiceを使うため
     @SuppressLint("ValidFragment")
     public PreferenceFragment(Context context){
         this.context = context;
@@ -28,7 +29,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         // 設定画面の作成
         addPreferencesFromResource(R.xml.preference);
 
-        onSharedPreferenceChanged(null, "");
+        portget();
 
        // IP取得
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -46,16 +47,17 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     }
 
-    //設定値を変えた時にSummaryも変える動作
+    //Summaryを更新するメソッド
+    public void portget() {
+        EditTextPreference port = (EditTextPreference)getPreferenceScreen().findPreference("Port");
+        port.setSummary(port.getText());
+    }
+
+    //設定値を変えた時に実行される
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        EditTextPreference port = (EditTextPreference)getPreferenceScreen().findPreference("Port");
-        port.setSummary(port.getText());
-
-        //UDP再起動命令実行
-        MainActivity mainActivity = new MainActivity();
-        //mainActivity.UDPbreak();
+        portget();
 
     }
 
