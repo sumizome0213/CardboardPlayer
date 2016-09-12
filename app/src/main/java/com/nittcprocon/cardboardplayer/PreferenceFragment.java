@@ -1,5 +1,6 @@
 package com.nittcprocon.cardboardplayer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
@@ -12,9 +13,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     Context context;
 
+    @SuppressLint("ValidFragment")
     public PreferenceFragment(Context context){
         this.context = context;
     }
+
+    //default constructor を提供しなければならないため
+    public PreferenceFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
