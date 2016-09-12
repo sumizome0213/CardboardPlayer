@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         videoView.setEventListener(new VideoEventListener());
         try {
             VrVideoView.Options videoOptions = new VrVideoView.Options();
+
+            //映像の種類
             videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
 
             /*
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             // HSL 配信以外は FORMAT_DEFAULT を指定する。
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
             videoView.loadVideoFromAsset("ride.mp4", videoOptions);
+
+
 
 
         } catch (IOException e) {
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick() {
             // View がタップされた時に呼ばれる。
             super.onClick();
+
             Log.d("VR", "Click");
         }
 
