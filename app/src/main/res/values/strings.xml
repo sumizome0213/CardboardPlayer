@@ -2,8 +2,8 @@
     <string name="app_name">CardboardPlayer</string>
 
     //menu項目
-    <string name="setting">setting</string>
-    <string name="help">help</string>
+    <string name="setting">設定</string>
+    <string name="about">このアプリについて</string>
 
     //Setting項目
     <string name="Port">Port</string>

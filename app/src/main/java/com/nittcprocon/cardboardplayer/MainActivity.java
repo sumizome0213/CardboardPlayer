@@ -1,8 +1,10 @@
 package com.nittcprocon.cardboardplayer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,10 +80,52 @@ public class MainActivity extends AppCompatActivity {
 
                     receiveValue = new String(Listener.getMessage(port));
 
+                    messagecase(receiveValue);
+
                 }
 
             }
         })).start();
+    }
+
+    public void messagecase(String message) {
+
+        Log.d("UDP", "messagecase$ " + message);
+
+        //改行コード削除
+        message = message.replaceAll("\n","");
+        message = message.replaceAll("\r","");
+
+        //switch文
+        switch (message) {
+            case "start":
+                start();
+                break;
+
+            case "stop":
+                stop();
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    public void start() {
+
+
+
+        Log.d("VR", "start");
+
+    }
+
+    public void stop() {
+
+        
+
+        Log.d("VR", "stop");
+
     }
 
     @Override
@@ -102,11 +146,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(setting);
 
                 return true;
-            case R.id.help:
+            case R.id.about:
+
+                about();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void about() {
+        AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
+        alertDlg.setTitle("このアプリについて");
+        alertDlg.setMessage("シンクロアスリートの非リアルタイム時のCardBoard再生アプリです");
+        alertDlg.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // OK ボタンクリック処理
+                    }
+                });
+
+        // 表示
+        alertDlg.create().show();
     }
 
 
@@ -159,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         public void onNewFrame() {
             // 動画再生位置を取得
             super.onNewFrame();
-            Log.d("VR", "Position : " + videoView.getCurrentPosition());
+            // Log.d("VR", "Position : " + videoView.getCurrentPosition());
         }
 
         @Override
