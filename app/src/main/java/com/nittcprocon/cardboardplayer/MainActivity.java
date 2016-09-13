@@ -33,99 +33,7 @@ public class MainActivity extends AppCompatActivity {
         StartUDP();
 
         videoView = (VrVideoView) findViewById(R.id.vr_video_view);
-        videoView.setEventListener(new VideoEventListener());
-        try {
-            VrVideoView.Options videoOptions = new VrVideoView.Options();
-
-            //映像の種類
-            videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
-
-            /*
-            // HLS 配信の場合は、inputFormat に FORMAT_HLS を指定する。
-            videoOptions.inputFormat = VrVideoView.Options.FORMAT_HLS;
-            Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.ride);
-            videoView.loadVideo(uri, videoOptions);
-            */
-
-
-            // HSL 配信以外は FORMAT_DEFAULT を指定する。
-            videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
-            videoView.loadVideoFromAsset("ride.mp4", videoOptions);
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.d("VR", "Video Load Error.");
-        }
-    }
-
-    public void StartUDP() {
-        //Portの数値を"strport"(string型)へ(""の場合は"12345"とする)
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String strport = sharedPreferences.getString("Port", "12345");
-        if (Objects.equals(strport, "")) strport = "12345";
-
-        //"strport"(string型)を"port"(int型)へ
-        final int port = Integer.parseInt(strport);
-        Log.d("UDP", "port# " + port);
-
-        //SocketUDPへportを送りながら起動
-        (new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                while(true) {
-
-                    receiveValue = new String(Listener.getMessage(port));
-
-                    messagecase(receiveValue);
-
-                }
-
-            }
-        })).start();
-    }
-
-    public void messagecase(String message) {
-
-        Log.d("UDP", "messagecase$ " + message);
-
-        //改行コード削除
-        message = message.replaceAll("\n","");
-        message = message.replaceAll("\r","");
-
-        //switch文
-        switch (message) {
-            case "start":
-                start();
-                break;
-
-            case "stop":
-                stop();
-                break;
-
-            default:
-                break;
-
-        }
-    }
-
-    public void start() {
-
-
-
-        Log.d("VR", "start");
-
-    }
-
-    public void stop() {
-
-        
-
-        Log.d("VR", "stop");
-
+        view();
     }
 
     @Override
@@ -172,6 +80,94 @@ public class MainActivity extends AppCompatActivity {
         alertDlg.create().show();
     }
 
+    public void StartUDP() {
+        //Portの数値を"strport"(string型)へ(""の場合は"12345"とする)
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String strport = sharedPreferences.getString("Port", "12345");
+        if (Objects.equals(strport, "")) strport = "12345";
+
+        //"strport"(string型)を"port"(int型)へ
+        final int port = Integer.parseInt(strport);
+        Log.d("UDP", "port# " + port);
+
+        //SocketUDPへportを送りながら起動
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while(true) {
+
+                    receiveValue = new String(Listener.getMessage(port));
+
+                    messagecase(receiveValue);
+
+                }
+
+            }
+        })).start();
+    }
+
+    public void messagecase(String message) {
+
+        Log.d("UDP", "messagecase :  " + message);
+
+        //改行コード削除
+        message = message.replaceAll("\n","");
+        message = message.replaceAll("\r","");
+
+        //switch文
+        switch (message) {
+            case "start":
+                start();
+                break;
+
+            case "stop":
+                stop();
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    public void view() {
+
+        videoView.setEventListener(new VideoEventListener());
+        try {
+            VrVideoView.Options videoOptions = new VrVideoView.Options();
+
+            //映像の種類
+            videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
+
+            /*
+            // HLS 配信の場合は、inputFormat に FORMAT_HLS を指定する。
+            videoOptions.inputFormat = VrVideoView.Options.FORMAT_HLS;
+            Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.ride);
+            videoView.loadVideo(uri, videoOptions);
+            */
+
+            // HSL 配信以外は FORMAT_DEFAULT を指定する。
+            videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
+            videoView.loadVideoFromAsset("ride.mp4", videoOptions);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("VR", "Video Load Error.");
+        }
+    }
+
+    public void start() {
+
+        Log.d("VR", "start");
+
+    }
+
+    public void stop() {
+
+        Log.d("VR", "stop");
+
+    }
 
     private class VideoEventListener extends VrVideoEventListener {
         @Override

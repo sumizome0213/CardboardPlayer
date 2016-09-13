@@ -10,6 +10,7 @@
     <string name="Port_dialogMessage">変更後はアプリの再起動をして下さい</string>
     <string name="Port_maxLength">5</string>
     <string name="Port_defaultValue">12345</string>
+    <string name="Directory">動画保存先を選択</string>
     <string name="IPAddress">IPAddress</string>
 
     <string name="title_activity_settings">Settings</string>
