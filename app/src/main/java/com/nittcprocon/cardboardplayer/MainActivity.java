@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //UDP通信開始
         StartUDP();
 
         videoView = (VrVideoView) findViewById(R.id.vr_video_view);
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         public void onLoadError(String errorMessage) {
             // コンテンツの読み込みに失敗。
             super.onLoadError(errorMessage);
-            alert("コンテンツの読み込みに失敗", "コンテンツの読み込みに失敗しました。再生ファイルが本体に含まれているか、ディレクトリの場所を確認して下さい。");
+            alert("コンテンツの読み込みに失敗", "コンテンツの読み込みに失敗しました。再生ファイルが本体に含まれているか、ディレクトリの場所が正しいかを確認して下さい。");
             Log.d("VR", errorMessage);
         }
 
@@ -220,6 +221,8 @@ public class MainActivity extends AppCompatActivity {
         public void onClick() {
             // View がタップされた時に呼ばれる。
             super.onClick();
+
+            //ヘッドポジションをリセットする処理を書きたい(切実)
 
             Log.d("VR", "Click");
         }

@@ -8,10 +8,15 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.support.annotation.NonNull;
 
-public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+import net.rdrei.android.dirchooser.DirectoryChooserConfig;
+import net.rdrei.android.dirchooser.DirectoryChooserFragment;
+
+public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, DirectoryChooserFragment.OnFragmentInteractionListener {
 
     Context context;
+    private DirectoryChooserFragment mDialog;
 
     //getSystemServiceを使うため
     @SuppressLint("ValidFragment")
@@ -45,6 +50,23 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         Preference ip = (findPreference("IPAddress"));
         ip.setSummary(strIPAddress);
 
+        //DirectorySelect
+        final DirectoryChooserConfig config = DirectoryChooserConfig.builder()
+                .newDirectoryName("DialogSample")
+                .build();
+        mDialog = DirectoryChooserFragment.newInstance(config);
+
+        Preference directory = (findPreference("Directory"));
+        directory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                //open browser or intent here
+
+                mDialog.show(getFragmentManager(), null);
+
+                return true;
+            }
+        });
+
     }
 
     //Summaryを更新するメソッド
@@ -71,5 +93,16 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void onPause() {
         super.onPause();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+
+    @Override
+    public void onSelectDirectory(@NonNull final String path) {
+        mDialog.dismiss();
+    }
+
+    @Override
+    public void onCancelChooser() {
+        mDialog.dismiss();
     }
 }
