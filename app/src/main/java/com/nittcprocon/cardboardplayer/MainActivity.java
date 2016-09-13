@@ -171,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
             videoView.loadVideoFromAsset(filename, videoOptions);
 
+            //一時停止させる
+            stop();
+
             //最初に戻す
             videoView.seekTo(0);
 
@@ -183,12 +186,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void start() {
 
+        //再生する
+        videoView.playVideo();
         Log.d("VR", "start");
 
     }
 
     public void stop() {
 
+        //一時停止する
+        videoView.pauseVideo();
         Log.d("VR", "stop");
 
     }
