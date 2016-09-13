@@ -15,8 +15,4 @@
         android:key="IPAddress"
         android:title="@string/IPAddress" />
 
-    <Preference
-        android:key="Directory"
-        android:title="@string/Directory" />
-
 </PreferenceScreen>
