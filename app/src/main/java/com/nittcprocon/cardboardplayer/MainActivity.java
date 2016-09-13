@@ -10,13 +10,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.vr.sdk.widgets.common.VrWidgetView;
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         StartUDP();
 
         videoView = (VrVideoView) findViewById(R.id.vr_video_view);
-        view();
+
     }
 
     @Override
@@ -56,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.about:
 
-                about();
+                alert("このアプリについて", "シンクロアスリートの非リアルタイム時のCardBoard再生アプリです");
 
                 return true;
             default:
@@ -64,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void about() {
+    public void alert(String title, String message) {
         AlertDialog.Builder alertDlg = new AlertDialog.Builder(this);
-        alertDlg.setTitle("このアプリについて");
-        alertDlg.setMessage("シンクロアスリートの非リアルタイム時のCardBoard再生アプリです");
+        alertDlg.setTitle(title);
+        alertDlg.setMessage(message);
         alertDlg.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
@@ -115,23 +120,36 @@ public class MainActivity extends AppCompatActivity {
         message = message.replaceAll("\n","");
         message = message.replaceAll("\r","");
 
-        //switch文
-        switch (message) {
-            case "start":
-                start();
-                break;
+        //正規表現(loadするファイルの読み取りのため)
+        Pattern pattern = Pattern.compile("(load: +)(.*)");
+        Matcher matcher = pattern.matcher(message);
 
-            case "stop":
-                stop();
-                break;
+        if(matcher.find()) {
 
-            default:
-                break;
+            Log.d("UDP", "loadname: " + matcher.group(2));
+            view(matcher.group(2));
 
+        } else {
+            //switch文
+            switch (message) {
+                case "start":
+                    start();
+                    break;
+
+                case "stop":
+                    stop();
+                    break;
+
+                default:
+                    break;
+
+            }
         }
+
+
     }
 
-    public void view() {
+    public void view(String filename) {
 
         videoView.setEventListener(new VideoEventListener());
         try {
@@ -149,7 +167,11 @@ public class MainActivity extends AppCompatActivity {
 
             // HSL 配信以外は FORMAT_DEFAULT を指定する。
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
-            videoView.loadVideoFromAsset("ride.mp4", videoOptions);
+            videoView.loadVideoFromAsset(filename, videoOptions);
+
+            //最初に戻す
+            videoView.seekTo(0);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -181,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         public void onLoadError(String errorMessage) {
             // コンテンツの読み込みに失敗。
             super.onLoadError(errorMessage);
+            alert("コンテンツの読み込みに失敗", "コンテンツの読み込みに失敗しました。再生ファイルが本体に含まれているか、ディレクトリの場所を確認して下さい。");
             Log.d("VR", errorMessage);
         }
 

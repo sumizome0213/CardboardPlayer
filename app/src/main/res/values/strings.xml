@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CardboardPlayer</string>
+    <string name="app_name">VRPlayer</string>
 
     //menu項目
     <string name="setting">設定</string>
