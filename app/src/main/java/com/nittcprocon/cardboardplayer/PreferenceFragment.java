@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import net.rdrei.android.dirchooser.DirectoryChooserConfig;
 import net.rdrei.android.dirchooser.DirectoryChooserFragment;
@@ -98,11 +99,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Override
     public void onSelectDirectory(@NonNull final String path) {
+        Log.d("Directory", "select");
         mDialog.dismiss();
+
     }
 
     @Override
     public void onCancelChooser() {
+        Log.d("Directory", "cancel");
         mDialog.dismiss();
+
     }
 }
