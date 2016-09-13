@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         StartUDP();
 
         videoView = (VrVideoView) findViewById(R.id.vr_video_view);
+        videoView.setEventListener(new VideoEventListener());
+
+        //VRModeにする
+        videoView.setDisplayMode(3);
 
     }
 
@@ -150,8 +154,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void view(String filename) {
-
-        videoView.setEventListener(new VideoEventListener());
         try {
             VrVideoView.Options videoOptions = new VrVideoView.Options();
 
