@@ -107,7 +107,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
 
         //""の時の処理
-        if(Objects.equals(path, "")) path = "/storage/emulated/0/Movies";
+        path ="";
+        if(Objects.equals(path, "")) path = "/sdcard/VRPlayer";
 
         //pathPrefのpathに値を保存
         SharedPreferences.Editor editor = pathPref.edit();

@@ -3,6 +3,7 @@ package com.nittcprocon.cardboardplayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.*;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,7 @@ import com.google.vr.sdk.widgets.common.VrWidgetView;
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mkdir("/sdcard/VRPlayer");
+
         //UDP通信開始
         StartUDP();
 
@@ -41,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
         //VRModeにする
         videoView.setDisplayMode(3);
 
+    }
+
+    public boolean mkdir(String creatpath){
+        File file = new File(creatpath);
+        return file.mkdir();
     }
 
     @Override
@@ -160,16 +169,21 @@ public class MainActivity extends AppCompatActivity {
             //映像の種類
             videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
 
-            /*
-            // HLS 配信の場合は、inputFormat に FORMAT_HLS を指定する。
-            videoOptions.inputFormat = VrVideoView.Options.FORMAT_HLS;
-            Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.drawable.ride);
-            videoView.loadVideo(uri, videoOptions);
-            */
+            //filenameに拡張子をつける
+            filename = filename + ".mp4";
 
+
+            // HLS 配信の場合は、inputFormat に FORMAT_HLS を指定する。
+            videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
+            Uri uri = Uri.parse(port + "/" + filename);
+            videoView.loadVideo(uri, videoOptions);
+
+
+            /*
             // HSL 配信以外は FORMAT_DEFAULT を指定する。
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
             videoView.loadVideoFromAsset(filename, videoOptions);
+            */
 
             //一時停止させる
             stop();
