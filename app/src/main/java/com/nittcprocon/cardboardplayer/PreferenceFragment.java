@@ -14,6 +14,8 @@ import android.util.Log;
 import net.rdrei.android.dirchooser.DirectoryChooserConfig;
 import net.rdrei.android.dirchooser.DirectoryChooserFragment;
 
+import java.util.Objects;
+
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, DirectoryChooserFragment.OnFragmentInteractionListener {
 
     Context context;
@@ -27,6 +29,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     //default constructor を提供しなければならないため
     public PreferenceFragment(){}
+
+    //path名
+    String path = "";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +57,15 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         Preference ip = (findPreference("IPAddress"));
         ip.setSummary(strIPAddress);
 
+        //pathに代入
+        getDirectory();
+        //summaryにpathを表示
+        showDirectory();
+
         //DirectorySelect
         final DirectoryChooserConfig config = DirectoryChooserConfig.builder()
                 .newDirectoryName("DialogSample")
+                .initialDirectory(path)
                 .build();
         mDialog = DirectoryChooserFragment.newInstance(config);
 
@@ -74,6 +86,36 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void portget() {
         EditTextPreference port = (EditTextPreference)getPreferenceScreen().findPreference("Port");
         port.setSummary(port.getText());
+    }
+
+    //pathの更新
+    public String getDirectory() {
+
+        CharSequence charpath;
+
+        //Summaryをpathに
+        try {
+            Preference directory = (findPreference("Directory"));
+            charpath = directory.getSummary();
+            path = charpath.toString();
+        }catch (RuntimeException e) {
+            Log.d("Directory", "getDirectory: error");
+
+        }
+
+        //""の時の処理
+        if(Objects.equals(path, "")) path = "/storage/emulated/0/Movies";
+
+        return path;
+    }
+
+    //summaryへのpathの表示
+    public void showDirectory() {
+
+
+        Preference directory = (findPreference("Directory"));
+        directory.setSummary(path);
+
     }
 
     //設定値を変えた時に実行される
@@ -98,9 +140,18 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
 
     @Override
-    public void onSelectDirectory(@NonNull final String path) {
+    public void onSelectDirectory(@NonNull final String newpath) {
         Log.d("Directory", "select");
+
+        //変数pathを更新
+        path = newpath;
+        //pathに代入
+        getDirectory();
+        //summaryにpathを表示
+        showDirectory();
+
         mDialog.dismiss();
+
 
     }
 

@@ -3,26 +3,23 @@ package com.nittcprocon.cardboardplayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.preference.*;
+import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.vr.sdk.widgets.common.VrWidgetView;
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -158,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             VrVideoView.Options videoOptions = new VrVideoView.Options();
 
+            String port = getDirectory();
+
             //映像の種類
             videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
 
@@ -199,6 +198,26 @@ public class MainActivity extends AppCompatActivity {
         videoView.pauseVideo();
         Log.d("VR", "stop");
 
+    }
+
+    public String getDirectory() {
+        CharSequence charpath;
+        String path = "";
+
+        //Summaryをpathに
+        try {
+            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            //charpath = sharedPreferences.getSummary("", "");
+            //path = charpath.toString();
+        }catch (RuntimeException e) {
+            Log.d("Directory", "getDirectory: error");
+
+        }
+
+        //""の時の処理
+        if(Objects.equals(path, "")) path = "/storage/emulated/0/Movies";
+
+        return path;
     }
 
     private class VideoEventListener extends VrVideoEventListener {
