@@ -11,6 +11,8 @@ import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.gu.option.UnitFunction;
+
 import net.rdrei.android.dirchooser.DirectoryChooserConfig;
 import net.rdrei.android.dirchooser.DirectoryChooserFragment;
 
@@ -93,7 +95,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     //pathの更新
     public String getDirectory() {
 
-        CharSequence charpath;
         SharedPreferences pathPref = context.getSharedPreferences("pathPref", Context.MODE_PRIVATE);
 
         //Summaryをpathに

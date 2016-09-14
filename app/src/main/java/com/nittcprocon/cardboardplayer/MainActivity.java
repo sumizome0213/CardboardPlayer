@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             VrVideoView.Options videoOptions = new VrVideoView.Options();
 
-            String port = getDirectory();
+            String path = getDirectory();
 
             //映像の種類
             videoOptions.inputType = VrVideoView.Options.TYPE_MONO;
@@ -175,9 +175,8 @@ public class MainActivity extends AppCompatActivity {
 
             // HLS 配信の場合は、inputFormat に FORMAT_HLS を指定する。
             videoOptions.inputFormat = VrVideoView.Options.FORMAT_DEFAULT;
-            Uri uri = Uri.parse(port + "/" + filename);
+            Uri uri = Uri.parse(path + "/" + filename);
             videoView.loadVideo(uri, videoOptions);
-
 
             /*
             // HSL 配信以外は FORMAT_DEFAULT を指定する。
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getDirectory() {
-        CharSequence charpath;
+
         String path = "";
 
         //Summaryをpathに
