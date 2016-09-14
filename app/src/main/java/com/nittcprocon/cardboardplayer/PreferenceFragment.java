@@ -76,6 +76,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
                 mDialog.show(getFragmentManager(), null);
 
+
+
                 return true;
             }
         });
@@ -92,12 +94,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public String getDirectory() {
 
         CharSequence charpath;
+        SharedPreferences pathPref = context.getSharedPreferences("pathPref", Context.MODE_PRIVATE);
 
         //Summaryをpathに
         try {
-            Preference directory = (findPreference("Directory"));
-            charpath = directory.getSummary();
-            path = charpath.toString();
+
+            path = pathPref.getString("path","");
+
         }catch (RuntimeException e) {
             Log.d("Directory", "getDirectory: error");
 
@@ -106,12 +109,16 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         //""の時の処理
         if(Objects.equals(path, "")) path = "/storage/emulated/0/Movies";
 
+        //pathPrefのpathに値を保存
+        SharedPreferences.Editor editor = pathPref.edit();
+        editor.putString("path",path);
+        editor.commit();
+
         return path;
     }
 
     //summaryへのpathの表示
     public void showDirectory() {
-
 
         Preference directory = (findPreference("Directory"));
         directory.setSummary(path);
@@ -138,7 +145,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
-
+    //OKを押した時の処理
     @Override
     public void onSelectDirectory(@NonNull final String newpath) {
         Log.d("Directory", "select");
@@ -152,9 +159,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         mDialog.dismiss();
 
-
     }
 
+    //Cancelを押した時の処理
     @Override
     public void onCancelChooser() {
         Log.d("Directory", "cancel");

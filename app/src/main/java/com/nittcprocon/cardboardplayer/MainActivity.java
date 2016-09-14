@@ -206,9 +206,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Summaryをpathに
         try {
-            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            //charpath = sharedPreferences.getSummary("", "");
-            //path = charpath.toString();
+            SharedPreferences pathPref = getSharedPreferences("pathPref",MODE_PRIVATE);
+            path = pathPref.getString("path", path);
         }catch (RuntimeException e) {
             Log.d("Directory", "getDirectory: error");
 
